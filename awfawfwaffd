@@ -1,0 +1,1120 @@
+--Ahuhuhuhu it's a good hammer amirite ahuahuahuahua
+--Credits to W8X for helping out with the magnitude damage function and stuff
+--Credits to MakerModelLua to fix a small problem ;D
+function lerp(weld,beglerp,endlerp,speed)
+	weld.C0 = beglerp:lerp(endlerp,speed)
+	return weld.C0
+end
+local speed = 0.2
+local angle = 0
+local anglespeed = 1.5
+local armspeed = 0.2
+local armangle = 0
+local armanglespeed = 1.5
+local legspeed = 0.2
+local legangle = 0
+local leganglespeed = 1.5
+x2enabled = true
+ignore = {}
+action = "Idle"
+Mode = "TwoHanded"
+on = false
+enabled = true
+jumping = false
+falling = false
+handleexception = false
+combo = 1
+Player = game.Players.LocalPlayer
+Char = Player.Character
+Anim = Char:FindFirstChild("Animate")
+Human = Char.Humanoid
+Human.WalkSpeed = 14
+mouse = Player:GetMouse()
+Sounds = {"rbxasset://sounds/unsheath.wav", "rbxassetid://161006212", "rbxassetid://2248511", "rbxassetid://2101137", "rbxassetid://2248511","rbxassetid://157631498","rbxassetid://161006195","rbxassetid://157878578"}
+T = Char:findFirstChild("Torso")
+Head = Char.Head
+LA = Char:findFirstChild("Left Arm")
+RA = Char:findFirstChild("Right Arm")
+LL = Char:findFirstChild("Left Leg")
+RL = Char:findFirstChild("Right Leg")
+LS = T:findFirstChild("Left Shoulder")
+RS = T:findFirstChild("Right Shoulder")
+LH = T:findFirstChild("Left Hip")
+RH = T:findFirstChild("Right Hip")
+Neck = T:findFirstChild("Neck")
+HM = Char:findFirstChild("HumanoidRootPart")
+RJ = Char:findFirstChild("HumanoidRootPart"):findFirstChild("RootJoint")
+WLS = Instance.new("Weld", nil)
+WLS.C0 = CFrame.new(-1.5, 0.5, 0)
+WLS.C1 = CFrame.new(0, 0.5, 0)
+WLS.Part0 = T
+WLS.Part1 = LA
+WRS = Instance.new("Weld", nil)
+WRS.Part0 = T
+WRS.Part1 = RA
+WRS.C0 = CFrame.new(1.5, 0.5, 0)
+WRS.C1 = CFrame.new(0, 0.5, 0)
+WLH = LH
+WRH = RH
+WeldLH = Instance.new("Weld", nil)
+WeldLH.C0 = CFrame.new(-0.5, -1, 0)
+WeldLH.C1 = CFrame.new(0, 1, 0)
+WeldLH.Part0 = T
+WeldLH.Part1 = LL
+WeldRH = Instance.new("Weld", nil)
+WeldRH.C0 = CFrame.new(0.5, -1, 0)
+WeldRH.C1 = CFrame.new(0, 1, 0)
+WeldRH.Part0 = T
+WeldRH.Part1 = RL
+LSC0 = WLS.C0
+RSC0 = WRS.C0
+LHC0 = WLH.C0
+RHC0 = WRH.C0
+WLHC0 = WeldLH.C0
+WRHC0 = WeldRH.C0
+WRJ = RJ
+RJC0 = WRJ.C0
+NC0 = Neck.C0
+hopbin = Instance.new("HopperBin", Player.Backpack)
+hopbin.Name = "Xyphon"
+Run = game:GetService("RunService")
+	
+New = function(Object, Parent, Name, Data)
+	local Object = Instance.new(Object)
+	for Index, Value in pairs(Data or {}) do
+		Object[Index] = Value
+	end
+	Object.Parent = Parent
+	Object.Name = Name
+	return Object
+end
+
+Hammer = New("Model",Char,"Hammer",{})
+Part = New("Part",Hammer,"Part",{BrickColor = BrickColor.new("Mid gray"),Material = Enum.Material.SmoothPlastic,FormFactor = Enum.FormFactor.Custom,Size = Vector3.new(0.5, 0.5, 0.5),CFrame = CFrame.new(-89.0500031, 1.85000014, 88.3500061, 0.999999642, 0, -5.96046448e-008, 5.96046448e-008, 0, 0.999999642, 0, -1, 0),CanCollide = false,Locked = true,BottomSurface = Enum.SurfaceType.Smooth,TopSurface = Enum.SurfaceType.Smooth,Color = Color3.new(0.803922, 0.803922, 0.803922),})
+coolpart = Part
+Mesh = New("BlockMesh",Part,"Mesh",{Scale = Vector3.new(1, 3, 5),})
+Part = New("Part",Hammer,"Part",{BrickColor = BrickColor.new("Mid gray"),Material = Enum.Material.SmoothPlastic,FormFactor = Enum.FormFactor.Custom,Size = Vector3.new(0.5, 0.5, 0.5),CFrame = CFrame.new(-89.0500031, 3.25000048, 87.9500122, -0.999999404, -2.98023366e-008, -1.73452321e-007, 1.73452307e-007, -2.45785998e-007, -0.999999404, 2.98023206e-008, -0.999999404, 3.05390671e-007),CanCollide = false,Locked = true,BottomSurface = Enum.SurfaceType.Smooth,TopSurface = Enum.SurfaceType.Smooth,Color = Color3.new(0.803922, 0.803922, 0.803922),})
+Mesh = New("SpecialMesh",Part,"Mesh",{Offset = Vector3.new(0, -0.0250000004, -0.100000001),Scale = Vector3.new(1, 1.5, 1),MeshType = Enum.MeshType.Wedge,})
+Part = New("Part",Hammer,"Part",{BrickColor = BrickColor.new("Mid gray"),Material = Enum.Material.SmoothPlastic,FormFactor = Enum.FormFactor.Custom,Size = Vector3.new(0.5, 0.5, 0.5),CFrame = CFrame.new(-89.0500031, 3.25000048, 88.75, 0.999999642, 1.21847012e-008, -1.34932521e-009, -1.34931466e-009, -1.49011612e-008, -0.999999404, -1.2184695e-008, 0.999999583, 4.47034836e-008),CanCollide = false,Locked = true,BottomSurface = Enum.SurfaceType.Smooth,TopSurface = Enum.SurfaceType.Smooth,Color = Color3.new(0.803922, 0.803922, 0.803922),})
+Mesh = New("SpecialMesh",Part,"Mesh",{Offset = Vector3.new(0, -0.0250000004, -0.100000001),Scale = Vector3.new(1, 1.5, 1),MeshType = Enum.MeshType.Wedge,})
+Part = New("Part",Hammer,"Part",{BrickColor = BrickColor.new("Mid gray"),Material = Enum.Material.SmoothPlastic,FormFactor = Enum.FormFactor.Custom,Size = Vector3.new(0.5, 0.5, 0.5),CFrame = CFrame.new(-89.0500031, 0.450000226, 88.75, -0.999999404, -1.21847004e-008, 4.47034836e-008, 4.47034836e-008, 1.49011559e-008, 0.999999404, -1.2184695e-008, 0.999999583, 4.47034836e-008),CanCollide = false,Locked = true,BottomSurface = Enum.SurfaceType.Smooth,TopSurface = Enum.SurfaceType.Smooth,Color = Color3.new(0.803922, 0.803922, 0.803922),})
+Mesh = New("SpecialMesh",Part,"Mesh",{Offset = Vector3.new(0, -0.0250000004, -0.100000001),Scale = Vector3.new(1, 1.5, 1),MeshType = Enum.MeshType.Wedge,})
+Part = New("Part",Hammer,"Part",{BrickColor = BrickColor.new("Mid gray"),Material = Enum.Material.SmoothPlastic,FormFactor = Enum.FormFactor.Custom,Size = Vector3.new(0.5, 0.5, 0.5),CFrame = CFrame.new(-89.0500031, 0.450000226, 87.9500122, 0.999999285, 2.98023295e-008, 1.34110451e-007, -1.34110451e-007, 2.45785998e-007, 0.999999285, 2.98023206e-008, -0.999999404, 3.05390671e-007),CanCollide = false,Locked = true,BottomSurface = Enum.SurfaceType.Smooth,TopSurface = Enum.SurfaceType.Smooth,Color = Color3.new(0.803922, 0.803922, 0.803922),})
+Mesh = New("SpecialMesh",Part,"Mesh",{Offset = Vector3.new(0, -0.0250000004, -0.100000001),Scale = Vector3.new(1, 1.5, 1),MeshType = Enum.MeshType.Wedge,})
+Handle = New("Part",Hammer,"Handle",{BrickColor = BrickColor.new("Dark orange"),Material = Enum.Material.SmoothPlastic,FormFactor = Enum.FormFactor.Custom,Size = Vector3.new(0.5, 0.5, 0.5),CFrame = CFrame.new(-89.0500031, 1.85000014, 91.75, -1, 0, 0, 0, 0, -1, 0, -1, 0),CanCollide = false,Locked = true,BottomSurface = Enum.SurfaceType.Smooth,TopSurface = Enum.SurfaceType.Smooth,Color = Color3.new(0.627451, 0.372549, 0.207843),})
+Mesh = New("CylinderMesh",Handle,"Mesh",{Scale = Vector3.new(1, 11, 1),})
+
+
+Parts = {}
+for i,v in pairs(Hammer:GetChildren()) do
+	table.insert(Parts,v)
+end
+
+local prev 
+local parts = Parts
+
+for i = 1,#parts do 
+if (parts[i].className == "Part" or parts[i].className == "WedgePart") then 
+if (prev ~= nil) then 
+local weld = Instance.new("Weld") 
+weld.Part0 = prev 
+weld.Part1 = parts[i] 
+weld.C0 = prev.CFrame:inverse() 
+weld.C1 = parts[i].CFrame:inverse() 
+weld.Parent = Hammer 
+end 
+prev = parts[i] 
+end 
+end
+
+handle = Handle
+handleweld = Instance.new("Weld",T)
+handleweld.Part0 = RA
+handleweld.Part1 = handle
+handleweld.C0 = CFrame.new(0,-0.8,-1) *CFrame.Angles(-math.pi/2,0,0)
+handleweld.C1 = CFrame.new(0,0,0.5)
+hanw = handleweld.C0
+saven = Neck.C0
+
+PlaySound = function(part,volume,pitch,id)
+	local Sound = Instance.new("Sound", part)
+	Sound.SoundId = id
+	Sound.Pitch = pitch
+	Sound.Volume = volume
+	coroutine.wrap(function()
+		wait()
+		Sound:Play()
+		game.Debris:AddItem(Sound,1)
+	end)()
+end
+
+function GetDistance(Obj,Mag)
+	for _,v in pairs(workspace:GetChildren()) do
+		if v:FindFirstChild('Humanoid') and v:FindFirstChild('Torso') and v ~= Char then
+			local Mag2 = (v.Torso.Position - Obj.Position).magnitude
+			if Mag2 < Mag then
+				return v
+			end
+		end
+	end
+end
+
+ShowDmg = function(totake)
+	local modl = Instance.new("Model", workspace)
+	modl.Name = tostring(totake)
+	local prt = Instance.new("Part", modl)
+	prt.CanCollide = false
+	prt.BrickColor = BrickColor.Red()
+	prt.Name = "Head"
+	prt.CFrame = HM.CFrame *CFrame.new(0, 1.5, 0)
+	prt.TopSurface = 0
+	prt.BottomSurface = 0
+	prt.FormFactor = 3
+	prt.Size = Vector3.new(1, 0.2, 1)
+	local bm = Instance.new("BlockMesh", prt)
+	local hum = Instance.new("Humanoid", modl)
+	hum.Health = 0
+	hum.MaxHealth = 0
+	hum.WalkSpeed = 0
+	bodypos = Instance.new("BodyPosition", prt)
+	bodypos.position = Head.Position +Vector3.new(0, 1, 0)
+	bodypos.maxForce = Vector3.new(math.huge, math.huge, math.huge)
+	game.Debris:AddItem(modl, 1)
+	coroutine.resume(coroutine.create(function()
+		for i = 1, 3 do
+			bodypos.position = bodypos.position +Vector3.new(0, 0.5, 0)
+			Rwait()
+		end
+	end))
+end
+
+--Credits to MakerModelLua for helping me fix a small problem ;D
+function Denature(Body)
+	local pr = Instance.new("Part",Body)
+	pr.CanCollide = false
+	pr.TopSurface = 0
+	pr.BottomSurface = 0
+	pr.FormFactor = 3
+	pr.BrickColor = BrickColor.new("Really black")
+	pr.Size = Vector3.new(0.2,0.2,0.2)
+	pr.CFrame = Body.Torso.CFrame
+	local prm = Instance.new("SpecialMesh",pr)
+	prm.MeshType = "Sphere"
+	local prw = Instance.new("Weld",pr)
+	prw.Part0 = pr
+	prw.Part1 = Body.Torso
+	game.Debris:AddItem(pr,1.5)
+	local pmscale = prm.Scale
+	spawn(function()
+		for i = 1,3 do
+			Body.Humanoid:TakeDamage(1)
+			ShowDmg(5)
+			Rwait(38)
+		end
+	end)
+	spawn(function()
+		for i = 1,3 do
+			for i = 0,1.25,0.25/5 do
+				local pra = Instance.new("Part",Body)
+				pra.Anchored = true
+				pra.CanCollide = false
+				pra.TopSurface = 0
+				pra.BottomSurface = 0
+				pra.FormFactor = 3
+				pra.BrickColor = BrickColor.new("Really black")
+				pra.Size = Vector3.new(0.2,0.2,0.2)
+				pra.CFrame = Body.Torso.CFrame *CFrame.new(math.random(-40,40)/10,math.random(-20,20)/10,math.random(-15,15)/10)
+				game.Debris:AddItem(pra,0.5)
+				pra.Transparency = i/4
+				pr.Transparency = i
+				prm.Scale = pmscale +Vector3.new(50*i,50*i,50*i)
+				Rwait()
+			end
+			Rwait(5)
+		end
+	end)
+end
+	
+
+function Damage(magnitude,part,damg,knockback,ignoretime)
+	if ignoretime == 0 or ignoretime == nil then
+		ignoretime = 0.5
+	end
+	local Body = GetDistance(part,magnitude)
+	if Body ~= nil and Body.Humanoid and Body ~= Char and not ignore[Body] then
+		ignore[Body] = true
+		Body.Humanoid:TakeDamage(damg)
+		spawn(function()
+			ShowDmg(damg)
+		end)
+	    if knockback ~= nil and knockback >= 0 then
+	        local v = Instance.new("BodyVelocity",Body.Torso)
+			v.maxForce = Vector3.new(1e4,0,1e4)
+			v.P = 1e15
+			v.velocity = Body.Torso.CFrame.lookVector *-knockback
+			game.Debris:AddItem(v,0.3)
+		end
+		coroutine.resume(coroutine.create(function()
+			wait(ignoretime)
+			ignore[Body] = false
+		end))
+	end
+end
+
+function LiftDamage(magnitude,part,damg,knockback,ignoretime)
+	if lifted == true then return end
+	if ignoretime == 0 or ignoretime == nil then
+		ignoretime = 0.5
+	end
+	Body = GetDistance(part,magnitude)
+	if Body ~= nil and Body.Humanoid and Body ~= Char and not ignore[Body] then
+		lifted = true
+		ignore[Body] = true
+		Body.Humanoid:TakeDamage(damg)
+		spawn(function()
+			ShowDmg(damg)
+		end)
+	    if knockback ~= nil and knockback >= 0 then
+	        local v = Instance.new("BodyVelocity",Body.Torso)
+			v.maxForce = Vector3.new(1e4,0,1e4)
+			v.P = 1e15
+			v.velocity = Body.Torso.CFrame.lookVector *-knockback
+			game.Debris:AddItem(v,0.3)
+		end
+		coroutine.resume(coroutine.create(function()
+			wait(ignoretime)
+			ignore[Body] = false
+		end))
+	end
+end
+
+function PowerDamage(magnitude,part,damg,knockback,ignoretime)
+	if ignoretime == 0 or ignoretime == nil then
+		ignoretime = 0.5
+	end
+	local Body = GetDistance(part,magnitude)
+	if Body ~= nil and Body.Humanoid and Body ~= Char and not ignore[Body] then
+		hit = Body
+		ignore[Body] = true
+		Body.Humanoid:TakeDamage(damg)
+		spawn(function()
+			ShowDmg(damg)
+		end)
+		spawn(function()
+			Denature(hit)
+		end)
+	    if knockback ~= nil and knockback >= 0 then
+	        local v = Instance.new("BodyVelocity",Body.Torso)
+			v.maxForce = Vector3.new(1e4,0,1e4)
+			v.P = 1e15
+			v.velocity = Body.Torso.CFrame.lookVector *-knockback
+			game.Debris:AddItem(v,0.3)
+		end
+		coroutine.resume(coroutine.create(function()
+			wait(ignoretime)
+			ignore[Body] = false
+		end))
+	end
+end
+
+function Rwait(long)
+	if long == 0 or long == nil then
+		Run.RenderStepped:wait()
+	else
+		for i = 0,long do
+			Run.RenderStepped:wait()
+		end
+	end
+end
+
+function TwoHandedSlash1()
+	handleexception = true
+	for i = 1,20 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.new(0.5,0,0.4) *CFrame.Angles(0,math.pi/1.05,math.pi/2),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.new(-2,0,-0.25) *CFrame.Angles(0,math.pi/1.05,math.pi/2),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,math.pi/3.5),speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,1.5,0),0.2)
+		Rwait()
+	end
+	PlaySound(Head,1,0.5,Sounds[2])
+	for i = 1,20 do
+		Damage(2,coolpart,math.random(9,15))
+		lerp(WLS,WLS.C0,LSC0 *CFrame.new(3.2,0,-0.5) *CFrame.Angles(0,math.pi/30,math.pi/2),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.new(0,0,0.25) *CFrame.Angles(0,math.pi/30,math.pi/2),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,-math.pi/3.5),speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,1.5,0),0.2)
+		Rwait()
+	end
+	handleexception = false
+end
+
+function TwoHandedSlash2()
+	handleexception = true
+	for i = 1,20 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.new(3,0,-0.5) *CFrame.Angles(0,math.pi/30,math.pi/2),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.new(0,0,0.25) *CFrame.Angles(0,math.pi/30,math.pi/2),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,-math.pi/3.5),speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,-1.5,-1) *CFrame.Angles(math.pi,0,0),0.2)
+		Rwait()
+	end
+	PlaySound(Head,1,0.55,Sounds[2])
+	for i = 1,20 do
+		Damage(2,coolpart,math.random(9,15))
+		lerp(WLS,WLS.C0,LSC0 *CFrame.new(3,0,-0.5) *CFrame.Angles(0,math.pi/5,math.pi/2),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.new(0,0,0.25) *CFrame.Angles(0,math.pi/5,math.pi/2),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,math.pi/3.5),speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,0.05,0) *CFrame.Angles(-math.pi/2.5,0,0),0.2)
+		Rwait()
+	end
+	handleexception = false
+end
+
+function TwoHandedSlash3()
+	handleexception = true
+	for i = 1,20 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.new(2,0,0) *CFrame.Angles(math.pi/1.05,0,math.pi/6),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi/1.05,0,0),armspeed)
+		lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,math.pi/5),legspeed)
+		lerp(WRH,WRH.C0,RHC0 *CFrame.Angles(0,0,-math.pi/5),legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(-math.pi/5,0,0),speed)
+		lerp(Neck,Neck.C0,NC0 *CFrame.Angles(-math.pi/5,0,0),speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.Angles(-math.pi/5,0,0),0.2)
+		Rwait()
+	end
+	PlaySound(Head,1,0.8,Sounds[2])
+	for i = 1,20 do
+		Damage(2,coolpart,math.random(9,15))
+		lerp(WLS,WLS.C0,LSC0 *CFrame.new(2,0,0) *CFrame.Angles(math.pi/10,0,math.pi/6),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi/10,0,0),armspeed)
+		lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,-math.pi/5),legspeed)
+		lerp(WRH,WRH.C0,RHC0 *CFrame.Angles(0,0,math.pi/5),legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(math.pi/5,0,0),speed)
+		lerp(Neck,Neck.C0,NC0 *CFrame.Angles(math.pi/5,0,0),speed)
+		lerp(handleweld,handleweld.C0,hanw,0.2)
+		Rwait()
+	end
+	handleexception = false
+end
+
+function OneHandedSlash1()
+	handleexception = true
+	for i = 1,20 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(0,0,-math.pi/8),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(0,math.pi/1.75,math.pi/2),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,math.pi/4),speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		lerp(handleweld,handleweld.C0,hanw,0.2)
+		Rwait()
+	end
+	PlaySound(Head,1,0.4,Sounds[2])
+	for i = 1,20 do
+		Damage(2,coolpart,math.random(9,15))
+		lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(0,0,-math.pi/8),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(0,math.pi/10,math.pi/2),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,-math.pi/4),speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,-0.5,-0.9) *CFrame.Angles(-math.pi/3,0,0),0.2)
+		Rwait()
+	end
+	handleexception = false
+end
+
+function OneHandedSlash2()
+	handleexception = true
+	for i = 1,20 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(0,0,-math.pi/8),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi,-math.pi/5,math.pi/5),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,-math.pi/4),speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		lerp(handleweld,handleweld.C0,hanw,0.2)
+		Rwait()
+	end
+	PlaySound(Head,1,0.5,Sounds[2])
+	for i = 1,20 do
+		Damage(2,coolpart,math.random(9,15))
+		lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(0,0,-math.pi/8),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.new(-1,0,-0.7) *CFrame.Angles(math.pi/25,-math.pi/25,-math.pi/10),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,math.pi/4),speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		Rwait()
+	end
+	handleexception = false
+end
+
+function OneHandedSlash3()
+	handleexception = true
+	for i = 1,20 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(0,0,-math.pi/8),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.new(-1,0,-0.7) *CFrame.Angles(math.pi,math.pi/5,-math.pi/5),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,math.pi/4),speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		lerp(handleweld,handleweld.C0,hanw,0.2)
+		Rwait()
+	end
+	PlaySound(Head,1,0.45,Sounds[2])
+	for i = 1,20 do
+		Damage(2,coolpart,math.random(9,15))
+		lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(0,0,-math.pi/8),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(0,math.pi/5,math.pi/5),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,-math.pi/4),speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		Rwait()
+	end
+	handleexception = false
+end
+
+function Fissure()
+	handleexception = true
+	for i = 1,20 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.new(2,0,0) *CFrame.Angles(math.pi/1.05,0,math.pi/6),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi/1.05,0,0),armspeed)
+		lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,math.pi/5),legspeed)
+		lerp(WRH,WRH.C0,RHC0 *CFrame.Angles(0,0,-math.pi/5),legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.new(0,0,-0.2) *CFrame.Angles(-math.pi/5,0,0),speed)
+		lerp(Neck,Neck.C0,NC0 *CFrame.Angles(-math.pi/5,0,0),speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.Angles(-math.pi/5,0,0),0.2)
+		Rwait()
+	end
+	PlaySound(Head,1,0.8,Sounds[2])
+	Human.WalkSpeed = 0
+	for i = 1,100 do
+		Damage(2,coolpart,math.random(9,15))
+		lerp(WLS,WLS.C0,LSC0 *CFrame.new(2,0,0) *CFrame.Angles(math.pi/10,0,math.pi/6),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi/10,0,0),armspeed)
+		lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,-math.pi/5),legspeed)
+		lerp(WRH,WRH.C0,RHC0 *CFrame.Angles(0,0,math.pi/5),legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.new(0,0,-0.2) *CFrame.Angles(math.pi/5,0,0),speed)
+		lerp(Neck,Neck.C0,NC0 *CFrame.Angles(math.pi/5,0,0),speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,0.2,0),0.2)
+		if i == 7 then
+			PlaySound(Head,1,1.5,Sounds[8])
+			coroutine.resume(coroutine.create(function()
+				local Parts = {}
+				local distance = 0.45
+				local HMCF = HM.CFrame
+				for i = 1, 75 do
+					local fispart = Instance.new("Part")
+					fispart.Anchored = true
+					fispart.CanCollide = false
+					fispart.TopSurface = 0
+					fispart.BottomSurface = 0
+					fispart.FormFactor = 3
+					fispart.Size = Vector3.new(1,1,1)
+					local fispartm = Instance.new("BlockMesh", fispart)
+					fispartm.Name = "Mesh"
+					fispartm.Scale = Vector3.new(5,5,5)
+					table.insert(Parts,fispart)
+				end
+				Rwait(1)
+				local Ignore = {}
+				for I_shall,ignore_this in pairs(workspace:GetChildren()) do
+					if ignore_this:IsA("Model") then
+						if ignore_this:FindFirstChild("Humanoid") then
+							Ignore[#Ignore +1] = ignore_this
+						end
+					end
+				end
+				for num,partrr in pairs(Parts) do
+					partrr.Parent = Char
+					distance = distance +0.8
+					partrr.CFrame = HMCF *CFrame.new(1.25,3,-4-distance) *CFrame.Angles(math.random(-360,360),math.random(-360,360),math.random(-360,360))
+					coroutine.resume(coroutine.create(function()
+						for i = 0,1,0.1 do
+							Damage(4,partrr,math.random(4,8),50,0.25)
+							if partrr:FindFirstChild("Mesh") ~= nil then
+								partrr.Mesh.Scale = partrr.Mesh.Scale -Vector3.new(0.3635,0.3635,0.3635)
+							end
+							Rwait()
+						end
+					end))
+					local Ray = Ray.new(partrr.Position + Vector3.new(0,0.1,0),Vector3.new(0,-999,0))
+					local Hit,pos = workspace:FindPartOnRayWithIgnoreList(Ray, Ignore)
+					if Hit == nil then partrr:Destroy() end
+					if Hit ~= nil then
+						partrr.CFrame = CFrame.new(pos) *CFrame.Angles(math.random(-360,360),math.random(-360,360),math.random(-360,360))
+						partrr.BrickColor = Hit.BrickColor
+						partrr.Material = Hit.Material
+					end
+					game.Debris:AddItem(partrr,1)
+					Rwait()
+				end
+				Parts = {}
+			end))
+		end
+		Rwait()
+	end
+	Human.WalkSpeed = 14
+	handleexception = false
+end
+
+function SlamHammer()
+	Human.WalkSpeed = 0
+	for i = 1,20 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(0,0,-math.pi/8),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi/1.05,0,math.pi/5),armspeed)
+		lerp(WLH,WLH.C0,LHC0 *CFrame.new(-0.25,0,-0.25) *CFrame.Angles(0,-math.pi/4,0),legspeed)
+		lerp(WRH,WRH.C0,RHC0 *CFrame.new(-0.5,0,-0.25) *CFrame.Angles(0,-math.pi/4,0),legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,math.pi/4),speed)
+		lerp(Neck,Neck.C0,NC0 *CFrame.Angles(0,0,-math.pi/4),speed)
+		lerp(handleweld,handleweld.C0,hanw,0.2)
+		Rwait()
+	end
+	local BV = Instance.new("BodyVelocity",HM)
+	BV.maxForce = Vector3.new(1e5,0,1e5)
+	BV.P = 1e8
+	BV.Velocity = HM.CFrame.lookVector *80
+	game.Debris:AddItem(BV,0.3)
+	PlaySound(Head,1,0.4,Sounds[2])
+	LH.Part0 = nil
+	RH.Part0 = nil
+	WeldLH.Parent = T
+	WeldRH.Parent = T
+	for i = 1,50 do
+		lerp(WeldLH,WeldLH.C0,WLHC0,legspeed)
+		lerp(WeldRH,WeldRH.C0,WRHC0,legspeed)
+	end
+	for i = 1,40 do
+		Damage(4,coolpart,math.random(9,15))
+		lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(-math.pi/6,0,-math.pi/8),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.new(-0.4,0,-0.1) *CFrame.Angles(math.pi/8.1,-math.pi/4,math.pi/8),armspeed)
+		lerp(WeldLH,WeldLH.C0,WLHC0 *CFrame.new(0.5,0,0) *CFrame.Angles(-math.pi/2,0,-math.pi/4),legspeed/1.5)
+		lerp(WeldRH,WeldRH.C0,WRHC0 *CFrame.new(0.4,1.5,-0.1) *CFrame.Angles(0,-math.pi/4,0),legspeed/1.5)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.new(0,0,-1.5) *CFrame.Angles(0,0,math.pi/4),speed)
+		lerp(Neck,Neck.C0,NC0 *CFrame.Angles(0,0,-math.pi/4),speed)
+		lerp(handleweld,handleweld.C0,hanw,0.2)
+		Rwait()
+	end
+	LH.Part0 = T
+	RH.Part0 = T
+	WeldLH.Parent = nil
+	WeldRH.Parent = nil
+	Human.WalkSpeed = 14
+end
+
+function DashSpin()
+	Human.WalkSpeed = 0
+	local BV = Instance.new("BodyVelocity",HM)
+	BV.maxForce = Vector3.new(1e5,0,1e5)
+	BV.P = 1e8
+	BV.Velocity = HM.CFrame.lookVector *80
+	game.Debris:AddItem(BV,0.3)
+	local eff = Instance.new("Part",Char)
+	eff.Anchored = true
+	eff.CanCollide = false
+	eff.TopSurface = 0
+	eff.BottomSurface = 0
+	eff.FormFactor = 3
+	eff.BrickColor = BrickColor.new("Institutional white")
+	eff.Size = Vector3.new(1,1,1)
+	eff.CFrame = HM.CFrame *CFrame.new(0,0,4) *CFrame.Angles(math.pi/2,0,0)
+	effm = Instance.new("SpecialMesh",eff)
+	effm.MeshId = "http://www.roblox.com/asset/?id=20329976"
+	effm.Scale = Vector3.new(2,5,2)
+	game.Debris:AddItem(eff,1)
+	spawn(function()
+		for i = 0,1,0.02 do
+			eff.Transparency = i
+			Rwait()
+		end
+	end)
+	for i = 1,40 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(math.pi/2,math.pi/4,0),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi/2,math.pi/2,0),armspeed)
+		lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,-math.pi/10),legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,math.pi/2.05),speed)
+		lerp(Neck,Neck.C0,NC0 *CFrame.Angles(0,0,-math.pi/2.05),speed)
+		lerp(handleweld,handleweld.C0,hanw,0.2)
+		Rwait()
+	end
+	Human.WalkSpeed = 14
+	for i = 1,5 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.new(0.5,0,0.4) *CFrame.Angles(0,math.pi/1.05,math.pi/2),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.new(-2,0,-0.25) *CFrame.Angles(0,math.pi/1.05,math.pi/2),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,math.pi/3.5),speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,1.5,0),0,0.2)
+		Rwait()
+	end
+	for i = 1,3 do
+		for i = 0,1,0.05 do
+			Damage(4,coolpart,math.random(9,15),0.2)
+			lerp(WLS,WLS.C0,LSC0 *CFrame.new(0.5,0,0.4) *CFrame.Angles(0,math.pi/1.05,math.pi/2),armspeed)
+			lerp(WRS,WRS.C0,RSC0 *CFrame.new(-2,0,-0.25) *CFrame.Angles(0,math.pi/1.05,math.pi/2),armspeed)
+			lerp(WLH,WLH.C0,LHC0,legspeed)
+			lerp(WRH,WRH.C0,RHC0,legspeed)
+			lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,-math.pi*i*2),speed)
+			lerp(Neck,Neck.C0,NC0,speed)
+			lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,1.5,0),0.2)
+			Rwait()
+		end
+		Rwait()
+		PlaySound(Head,1,1,Sounds[2])
+	end
+end
+
+function Pummeler()
+	pummel = false
+	local BV = Instance.new("BodyVelocity",HM)
+	BV.maxForce = Vector3.new(1e5,0,1e5)
+	BV.P = 1e10
+	BV.Velocity = HM.CFrame.lookVector *40
+	game.Debris:AddItem(BV,0.3)
+	LH.Part0 = nil
+	RH.Part0 = nil
+	WeldLH.Parent = T
+	WeldRH.Parent = T
+	deb = false
+	for i = 1,50 do
+		lerp(WeldLH,WeldLH.C0,WLHC0,legspeed)
+		lerp(WeldRH,WeldRH.C0,WRHC0,legspeed)
+	end
+	for i = 1,20 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(math.pi/2,math.pi/4,0),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi/2,math.pi/2,0),armspeed)
+		lerp(WeldLH,WeldLH.C0,WLHC0,legspeed)
+		lerp(WeldRH,WeldRH.C0,WRHC0 *CFrame.Angles(math.pi/2.2,0,0),legspeed)
+		lerp(WRJ,WRJ.C0,RJC0,speed)
+		lerp(Neck,Neck.C0,NC0 *CFrame.Angles(math.pi/5,0,0),speed)
+		lerp(handleweld,handleweld.C0,hanw,0.2)
+		if i == 8 then
+			con1 = RL.Touched:connect(function(hit)
+				if deb == false and hit.Parent ~= nil and hit.Parent:FindFirstChild("Torso") ~= nil and hit.Parent:FindFirstChild("Humanoid") ~= nil and hit.Parent:FindFirstChild("Humanoid").Health >= 0 then
+					deb = true
+					BV:Destroy()
+					BG = Instance.new("BodyGyro",hit.Parent.Torso)
+					BG.MaxTorque = Vector3.new(math.huge,math.huge,math.huge)
+					BG.P = 10000
+					BG.CFrame = hit.Parent.Torso.CFrame *CFrame.Angles(math.rad(90),0,0)
+					BP = Instance.new("BodyPosition",hit.Parent.Torso)
+					BP.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+					BP.P = 10000
+					BP.Position = hit.Parent.Torso.Position -Vector3.new(0,3,0)
+					game.Debris:AddItem(BG,0.5)
+					game.Debris:AddItem(BP,0.5)
+					pummel = true
+				end
+			end)
+		end
+		Rwait()
+	end
+	con1:disconnect()
+	if pummel == true then
+		for i = 1,10 do
+			lerp(Neck,Neck.C0,NC0,speed)
+			lerp(WeldLH,WeldLH.C0,WLHC0,legspeed)
+			lerp(WeldRH,WeldRH.C0,WRHC0,legspeed)
+			Rwait()
+		end
+		LH.Part0 = T
+		RH.Part0 = T
+		WeldLH.Parent = nil
+		WeldRH.Parent = nil
+		for i = 1,3 do
+			for i = 1,15 do
+				lerp(WLS,WLS.C0,LSC0 *CFrame.new(2,0,0) *CFrame.Angles(math.pi/1.05,0,math.pi/6),armspeed)
+				lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi/1.05,0,0),armspeed)
+				lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,math.pi/5),legspeed)
+				lerp(WRH,WRH.C0,RHC0 *CFrame.Angles(0,0,-math.pi/5),legspeed)
+				lerp(WRJ,WRJ.C0,RJC0 *CFrame.new(0,0,-0.2) *CFrame.Angles(-math.pi/5,0,0),speed)
+				lerp(Neck,Neck.C0,NC0 *CFrame.Angles(-math.pi/5,0,0),speed)
+				lerp(handleweld,handleweld.C0,hanw *CFrame.Angles(-math.pi/5,0,0),0.2)
+				Rwait()
+			end
+			PlaySound(Head,1,0.5,Sounds[2])
+			for i = 1,15 do
+				Damage(2,coolpart,math.random(9,15))
+				lerp(WLS,WLS.C0,LSC0 *CFrame.new(2,0,0) *CFrame.Angles(math.pi/10,0,math.pi/6),armspeed)
+				lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi/10,0,0),armspeed)
+				lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,-math.pi/5),legspeed)
+				lerp(WRH,WRH.C0,RHC0 *CFrame.Angles(0,0,math.pi/5),legspeed)
+				lerp(WRJ,WRJ.C0,RJC0 *CFrame.new(0,0,-0.2) *CFrame.Angles(math.pi/5,0,0),speed)
+				lerp(Neck,Neck.C0,NC0 *CFrame.Angles(math.pi/5,0,0),speed)
+				lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,0.2,0),0.2)
+				Rwait()
+			end
+			Rwait()
+		end
+	end
+	if pummel == false then
+		for i = 1,10 do
+			lerp(Neck,Neck.C0,NC0,speed)
+			lerp(WeldLH,WeldLH.C0,WLHC0,legspeed)
+			lerp(WeldRH,WeldRH.C0,WRHC0,legspeed)
+			Rwait()
+		end
+		LH.Part0 = T
+		RH.Part0 = T
+		WeldLH.Parent = nil
+		WeldRH.Parent = nil
+	end
+	deb = false
+end
+
+function PowerSlash()
+	for i = 1,20 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(-math.pi/8,0,0),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.new(-0.4,0,-0.5) *CFrame.Angles(math.pi/1.2,math.pi/10,-math.pi/4),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0,speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,0.2,0),0.2)
+		Rwait()
+	end
+	for i = 1,30 do
+		local p = Instance.new("Part",Char)
+		p.Anchored = true
+		p.CanCollide = false
+		p.FormFactor = 3
+		p.BrickColor = BrickColor.new("Really black")
+		p.Size = Vector3.new(0.5,0.5,0.5)
+		p.CFrame = coolpart.CFrame *CFrame.new(math.random(-40,40)/20,0,math.random(-40,40)/20) *CFrame.Angles(math.random(-10,10)/10,math.random(-10,10)/10,math.random(-10,10)/10)
+		game.Debris:AddItem(p,0.7)
+		coroutine.resume(coroutine.create(function()
+			for i = 0,1.05,0.05 do
+				p.Transparency = i
+				p.CFrame = coolpart.CFrame *CFrame.new(math.random(-40,40)/20,0,math.random(-40,40)/20) *CFrame.Angles(math.random(-10,10)/10,math.random(-10,10)/10,math.random(-10,10)/10)
+				Rwait()
+			end
+		end))
+	end
+	for i = 1,20 do
+		PowerDamage(4,coolpart,math.random(4,18),50,0.45)
+		lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(-math.pi/8,0,0),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(0,-math.pi/30,math.pi/3),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0,speed)
+		lerp(Neck,Neck.C0,NC0,speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,0.2,0),0.2)
+		Rwait()
+	end
+end
+
+function LiftSpinwheel()
+	handleexception = true
+	for i = 1,20 do
+		lerp(WLS,WLS.C0,LSC0 *CFrame.new(1.4,0,-1) *CFrame.Angles(math.pi/2,0,-math.pi/5),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.new(0.2,0,-0.1) *CFrame.Angles(math.pi/2,0,-math.pi/5),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,-math.pi/5),speed)
+		lerp(Neck,Neck.C0,NC0 *CFrame.Angles(0,0,math.pi/5),speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(-1,-1,-0.5) *CFrame.Angles(0,-math.pi/2,math.pi/2),0.2)
+		Rwait()
+	end
+	lifted = false
+	for i = 1,20 do
+		LiftDamage(2,coolpart,math.random(16,24))
+		lerp(WLS,WLS.C0,LSC0 *CFrame.new(1.8,1,-1) *CFrame.Angles(math.pi/1.2,math.pi/10,0),armspeed)
+		lerp(WRS,WRS.C0,RSC0 *CFrame.new(0.2,0,-0.1) *CFrame.Angles(math.pi/1.2,-math.pi/10,-math.pi/10),armspeed)
+		lerp(WLH,WLH.C0,LHC0,legspeed)
+		lerp(WRH,WRH.C0,RHC0,legspeed)
+		lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,-math.pi/5),speed)
+		lerp(Neck,Neck.C0,NC0 *CFrame.Angles(0,0,math.pi/5),speed)
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(-1,-1,-0.5) *CFrame.Angles(0,-math.pi/2,math.pi/2),0.2)
+		Rwait()
+	end
+	print(lifted)
+	if lifted == true then
+		BP = Instance.new("BodyPosition",Body.Torso)
+		BP.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+		BP.P = 2e4
+		BP.Position = Body.Torso.CFrame.p +Vector3.new(0,20,0)
+		Rwait(50)
+		PBP = Instance.new("BodyPosition",T)
+		PBP.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+		PBP.P = 1e6
+		PBP.Position = Body.Torso.CFrame.p+(Body.Torso.CFrame.lookVector *5)
+		for i = 1,3 do
+			for i = 0,1.05,0.05 do
+				Damage(2,coolpart,math.random(4,8),0,0.2)
+				lerp(WLS,WLS.C0,LSC0 *CFrame.new(0.5,0,0.4) *CFrame.Angles(0,math.pi/1.05,math.pi/2),armspeed)
+				lerp(WRS,WRS.C0,RSC0 *CFrame.new(-2,0,-0.25) *CFrame.Angles(0,math.pi/1.05,math.pi/2),armspeed)
+				lerp(WLH,WLH.C0,LHC0,legspeed)
+				lerp(WRH,WRH.C0,RHC0,legspeed)
+				lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,math.pi/2,-math.pi*i*2),speed)
+				lerp(Neck,Neck.C0,NC0,speed)
+				lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,1.5,0),0.2)
+				Rwait()
+			end
+			PlaySound(Head,1,1.1,Sounds[2])
+			Rwait()
+		end
+		BP:Destroy()
+		PBP:Destroy()
+		Body = nil
+	end
+	handleexception = false
+end
+
+function Selected()
+	click = mouse.Button1Down:connect(function()
+		if combo == 1 and on == true and enabled == true and Mode == "TwoHanded" then
+			enabled = false
+			coroutine.resume(coroutine.create(function()
+				Rwait(100)
+				if enabled == true then
+					combo = 1
+				end
+			end))
+			TwoHandedSlash1()
+			combo = 2
+			enabled = true
+		elseif combo == 1 and on == true and enabled == true and Mode == "OneHanded" then
+			enabled = false
+			coroutine.resume(coroutine.create(function()
+				Rwait(100)
+				if enabled == true then
+					combo = 1
+				end
+			end))
+			OneHandedSlash1()
+			combo = 2
+			enabled = true
+		elseif combo == 2 and on == true and enabled == true and Mode == "TwoHanded" then
+			enabled = false
+			coroutine.resume(coroutine.create(function()
+				Rwait(100)
+				if enabled == true then
+					combo = 1
+				end
+			end))
+			TwoHandedSlash2()
+			enabled = true
+			combo = 3
+		elseif combo == 2 and on == true and enabled == true and Mode == "OneHanded" then
+			enabled = false
+			coroutine.resume(coroutine.create(function()
+				Rwait(100)
+				if enabled == true then
+					combo = 1
+				end
+			end))
+			OneHandedSlash2()
+			combo = 3
+			enabled = true
+		elseif combo == 3 and on == true and enabled == true and Mode == "TwoHanded" then
+			enabled = false
+			TwoHandedSlash3()
+			enabled = true
+			combo = 1
+		elseif combo == 3 and on == true and enabled == true and Mode == "OneHanded" then
+			enabled = false
+			OneHandedSlash3()
+			combo = 1
+			enabled = true
+		end
+	end)
+	keys = mouse.KeyDown:connect(function(key)
+		key = key:lower()
+		if enabled == false then return end
+		if key == "e" then
+			if Mode == "TwoHanded" then
+				Mode = "OneHanded"
+			elseif Mode == "OneHanded" then
+				Mode = "TwoHanded"
+			end
+		end
+		if key == "f" then
+			on = not on
+			if on == false then
+				for i = 1, 10 do
+					lerp(WLS,WLS.C0,LSC0,armspeed)
+					lerp(WRS,WRS.C0,RSC0,armspeed)
+					lerp(WLH,WLH.C0,LHC0,legspeed)
+					lerp(WRH,WRH.C0,RHC0,legspeed)
+					lerp(WRJ,WRJ.C0,RJC0,speed)
+					lerp(Neck,Neck.C0,NC0,speed)
+					Rwait()
+				end
+				WLS.Parent = nil
+				WRS.Parent = nil
+				LSH.Parent = T
+				RSH.Parent = T
+				Neck.C0 = saven
+			end
+			if on == true then
+				--EquipAnim()
+				RJC = RJ:Clone()
+				LSH = LS:Clone()
+				RSH = RS:Clone()
+				Neck.C0 = saven
+				WLS.Parent = T
+				WRS.Parent = T
+			end
+		end
+		if key == "z" and on == true and Mode == "TwoHanded" then
+			enabled = false
+			Fissure()
+			enabled = true
+			wait(0.5)
+		elseif key == "z" and on == true and Mode == "OneHanded" then
+			enabled = false
+			SlamHammer()
+			enabled = true
+		end
+		if key == "x" and on == true and Mode == "TwoHanded" then
+			enabled = false
+			DashSpin()
+			enabled = true
+		elseif key == "x" and x2enabled == true and on == true and Mode == "OneHanded" then
+			enabled = false
+			x2enabled = false
+			PowerSlash()
+			enabled = true
+			wait(5)
+			x2enabled = true
+		end
+		if key == "c" and on == true and Mode == "TwoHanded" then
+			enabled = false
+			Pummeler()
+			enabled = true
+		end
+		if key == "v" and on == true and Mode == "TwoHanded" then
+			enabled = false
+			LiftSpinwheel()
+			enabled = true
+		end
+	end)
+end
+
+function Deselected()
+	click:disconnect()
+	keys:disconnect()
+end
+
+hopbin.Selected:connect(Selected)
+hopbin.Deselected:connect(Deselected)
+
+while true do
+	if enabled == true then
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,0,0.2),0.2)
+	elseif enabled == false then
+		if handleexception == false then
+		lerp(handleweld,handleweld.C0,hanw *CFrame.new(0,0,0.2),0.2)
+		end
+	end
+	if on == true then
+		angle = (angle % 100) +anglespeed/10
+		armangle = (armangle % 100) +armanglespeed/10
+		legangle = (legangle % 100) +leganglespeed/10
+		if action == "Idle" and enabled == true and Mode == "TwoHanded" then
+			lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(math.pi/2,math.pi/4,0),armspeed)
+			lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi/2,math.pi/2,0),armspeed)
+			lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,-math.pi/10),legspeed)
+			lerp(WRH,WRH.C0,RHC0,legspeed)
+			lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(math.pi/20,0,0),speed)
+			lerp(Neck,Neck.C0,NC0 *CFrame.Angles(-math.pi/20,0,0),speed)
+		end
+		if action == "Idle" and enabled == true and Mode == "OneHanded" then
+			lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(0,0,-math.pi/10),armspeed)
+			lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(0,0,math.pi/8),armspeed)
+			lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,math.pi/30),legspeed)
+			lerp(WRH,WRH.C0,RHC0 *CFrame.Angles(0,0,math.pi/30),legspeed)
+			lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(0,0,-math.pi/10),speed)
+			lerp(Neck,Neck.C0,NC0 *CFrame.Angles(math.sin(angle*0.25/2)*0.3/2,0,math.pi/10),speed)
+		end
+		if action == "Walk" and enabled == true and Mode == "TwoHanded" then
+			lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(math.pi/2,math.pi/4,0),armspeed)
+			lerp(WRS,WRS.C0,RSC0 *CFrame.new(0,0,0.05) *CFrame.Angles(math.pi/2,math.pi/2,0),armspeed)
+			lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,math.pi/10),legspeed)
+			lerp(WRH,WRH.C0,RHC0 *CFrame.Angles(0,0,-math.pi/10),legspeed)
+			lerp(WRJ,WRJ.C0,RJC0,speed)
+			lerp(Neck,Neck.C0,NC0,speed)
+		end
+		if action == "Walk" and enabled == true and Mode == "OneHanded" then
+			lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(0,0,-math.pi/40),armspeed)
+			lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(0,-math.pi/3.5,math.pi/10),armspeed)
+			lerp(WLH,WLH.C0,LHC0,legspeed)
+			lerp(WRH,WRH.C0,RHC0,legspeed)
+			lerp(WRJ,WRJ.C0,RJC0,speed)
+			lerp(Neck,Neck.C0,NC0,speed)
+		end
+		if HM.Velocity.Y >= 10 and enabled == true and Mode == "TwoHanded" then
+			while HM.Velocity.Y >= 10 and enabled == true do
+				action = "Jump"
+				jumping = true
+				lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(math.pi/2,math.pi/4,0),armspeed)
+				lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi/2,math.pi/2,0),armspeed)
+				lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,-math.pi/15),legspeed)
+				lerp(WRH,WRH.C0,RHC0 *CFrame.Angles(0,0,math.pi/10),legspeed)
+				lerp(WRJ,WRJ.C0,RJC0,speed)
+				lerp(Neck,Neck.C0,NC0 *CFrame.Angles(-math.pi/8,0,0),speed)
+				Rwait()
+			end
+		end
+		if HM.Velocity.Y >= 5 and enabled == true and Mode == "OneHanded" then
+			while HM.Velocity.Y >= 5 and enabled == true do
+				action = "Jump"
+				jumping = true
+				lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(0,0,-math.pi/40),armspeed)
+				lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(0,-math.pi/3.5,math.pi/10),armspeed)
+				lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,-math.pi/15),legspeed)
+				lerp(WRH,WRH.C0,RHC0 *CFrame.Angles(0,0,math.pi/10),legspeed)
+				lerp(WRJ,WRJ.C0,RJC0,speed)
+				lerp(Neck,Neck.C0,NC0 *CFrame.Angles(-math.pi/8,0,0),speed)
+				Rwait()
+			end
+		end
+		if HM.Velocity.Y <= -5 and enabled == true and Mode == "TwoHanded" then
+			while HM.Velocity.Y <= -5 and enabled == true do
+				action = "Fall"
+				falling = true
+				lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(math.pi/2,math.pi/4,0),armspeed)
+				lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(math.pi/2,math.pi/2,0),armspeed)
+				lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,-math.pi/10),legspeed)
+				lerp(WRH,WRH.C0,RHC0 *CFrame.Angles(0,0,math.pi/3),legspeed)
+				lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(math.pi/8,0,0),speed)
+				lerp(Neck,Neck.C0,NC0 *CFrame.Angles(math.pi/8,0,0),speed)
+				Rwait()
+			end
+		end
+		if HM.Velocity.Y <= -5 and enabled == true and Mode == "OneHanded" then
+			while HM.Velocity.Y <= -5 and enabled == true do
+				action = "Fall"
+				falling = true
+				lerp(WLS,WLS.C0,LSC0 *CFrame.Angles(0,0,-math.pi/40),armspeed)
+				lerp(WRS,WRS.C0,RSC0 *CFrame.Angles(0,-math.pi/3.5,math.pi/10),armspeed)
+				lerp(WLH,WLH.C0,LHC0 *CFrame.Angles(0,0,-math.pi/10),legspeed)
+				lerp(WRH,WRH.C0,RHC0 *CFrame.Angles(0,0,math.pi/3),legspeed)
+				lerp(WRJ,WRJ.C0,RJC0 *CFrame.Angles(math.pi/8,0,0),speed)
+				lerp(Neck,Neck.C0,NC0 *CFrame.Angles(math.pi/8,0,0),speed)
+				Rwait()
+			end
+		end
+		if Vector3.new(T.Velocity.X,0,T.Velocity.Z).magnitude <= 2 then
+			action = "Idle"
+		elseif Vector3.new(T.Velocity.X,0,T.Velocity.Z).magnitude <= 20 then
+			action = "Walk"
+		end
+	end
+	Rwait()
+end
